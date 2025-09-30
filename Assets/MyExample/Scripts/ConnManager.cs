@@ -1,4 +1,4 @@
-using Fusion;
+ï»¿using Fusion;
 using Fusion.Sockets;
 using System;
 using System.Collections.Generic;
@@ -34,10 +34,10 @@ public class ConnManager : MonoBehaviour, INetworkRunnerCallbacks
     public GameObject playerFactory;
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        // ¼­¹öÀÏ¶§
+        // ì„œë²„ì¼ë•Œ
         if (runner.IsServer)
         {
-            // ÁÖÀÎ°øÀ» »ı¼ºÇÏ°í½Í´Ù.
+            // ì£¼ì¸ê³µì„ ìƒì„±í•˜ê³ ì‹¶ë‹¤.
             Vector3 point = UnityEngine.Random.insideUnitSphere * 5f;
             point.y = 0;
             NetworkObject netObj = runner.Spawn(playerFactory, point, Quaternion.identity, player);
@@ -48,7 +48,7 @@ public class ConnManager : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        // spawnedPlayerList¿¡¼­ playerÀ» Ã£¾Æ¼­ ±×³à¼®ÀÇ NetworkObject¸¦ ÆÄ±«ÇÏ°í½Í´Ù.
+        // spawnedPlayerListì—ì„œ playerì„ ì°¾ì•„ì„œ ê·¸ë…€ì„ì˜ NetworkObjectë¥¼ íŒŒê´´í•˜ê³ ì‹¶ë‹¤.
         if (spawnedPlayerList.TryGetValue(player, out NetworkObject netObj))
         {
             runner.Despawn(netObj);

@@ -1,4 +1,4 @@
-using Fusion;
+ï»¿using Fusion;
 using UnityEngine;
 
 public class PlayerMove : NetworkBehaviour
@@ -23,10 +23,10 @@ public class PlayerMove : NetworkBehaviour
         base.Spawned();
         cc = GetComponent<NetworkCharacterController>();
 
-        // ¸¸¾à ÀÔ·Â±ÇÇÑÀÌ ¾ø´Ù¸é 
+        // ë§Œì•½ ìž…ë ¥ê¶Œí•œì´ ì—†ë‹¤ë©´ 
         if (false == HasInputAuthority)
         {
-            // Ä«¸Þ¶ó¸¦ ²ô°í½Í´Ù.
+            // ì¹´ë©”ë¼ë¥¼ ë„ê³ ì‹¶ë‹¤.
             cameraRig.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
@@ -61,10 +61,10 @@ public class PlayerMove : NetworkBehaviour
 
         magnitude = direction.magnitude;
 
-        // ¸¸¾à ÀÌµ¿ÁßÀÌ¶ó¸é(magnitude°¡ 0º¸´Ù Å©¸é)
+        // ë§Œì•½ ì´ë™ì¤‘ì´ë¼ë©´(magnitudeê°€ 0ë³´ë‹¤ í¬ë©´)
         if (magnitude > 0)
         {
-            // direction¹æÇâÀ¸·Î body¸¦ È¸ÀüÇÏ°í½Í´Ù.
+            // directionë°©í–¥ìœ¼ë¡œ bodyë¥¼ íšŒì „í•˜ê³ ì‹¶ë‹¤.
             body.rotation = Quaternion.LookRotation(direction);
         }
 
