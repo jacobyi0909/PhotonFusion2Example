@@ -1,0 +1,161 @@
+using Fusion;
+using Fusion.Sockets;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class ConnManager : MonoBehaviour, INetworkRunnerCallbacks
+{
+
+    NetworkRunner runner;
+
+    async void Start()
+    {
+        Screen.SetResolution(800, 600, FullScreenMode.Windowed);
+
+        runner = GetComponent<NetworkRunner>();
+        runner.ProvideInput = true;
+
+        SceneRef scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
+        NetworkSceneInfo sceneInfo = new NetworkSceneInfo();
+        sceneInfo.AddSceneRef(scene, LoadSceneMode.Single);
+        
+        await runner.StartGame(new StartGameArgs()
+        {
+            GameMode = GameMode.AutoHostOrClient,
+            SessionName = "TestRoom",
+            Scene = scene,
+            SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
+        });
+    }
+
+    Dictionary<PlayerRef, NetworkObject> spawnedPlayerList = new Dictionary<PlayerRef, NetworkObject>();
+    public GameObject playerFactory;
+    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
+    {
+        // 서버일때
+        if (runner.IsServer)
+        {
+            // 주인공을 생성하고싶다.
+            Vector3 point = UnityEngine.Random.insideUnitSphere * 5f;
+            point.y = 0;
+            NetworkObject netObj = runner.Spawn(playerFactory, point, Quaternion.identity, player);
+
+            spawnedPlayerList.Add(player, netObj);
+        }
+    }
+
+    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
+    {
+        // spawnedPlayerList에서 player을 찾아서 그녀석의 NetworkObject를 파괴하고싶다.
+        if (spawnedPlayerList.TryGetValue(player, out NetworkObject netObj))
+        {
+            runner.Despawn(netObj);
+            spawnedPlayerList.Remove(player);
+        }
+    }
+
+    void Update()
+    {
+
+    }
+
+    public void OnInput(NetworkRunner runner, NetworkInput input)
+    {
+        NetworkInputData data = new NetworkInputData();
+
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+        data.mouseX = Input.GetAxis("Mouse X");
+
+        data.direction = new Vector3(h, 0, v);
+
+        input.Set(data);
+    }
+
+
+    public void OnConnectedToServer(NetworkRunner runner)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+
+    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
+    {
+        throw new NotImplementedException();
+    }
+
+
+    public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnSceneLoadDone(NetworkRunner runner)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnSceneLoadStart(NetworkRunner runner)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
+    {
+        throw new NotImplementedException();
+    }
+
+
+}
