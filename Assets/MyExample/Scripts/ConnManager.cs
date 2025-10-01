@@ -34,7 +34,7 @@ public class ConnManager : Fusion.Behaviour, INetworkRunnerCallbacks
         await runner.StartGame(new StartGameArgs()
         {
             GameMode = GameMode.AutoHostOrClient,
-            SessionName = "TestRoom",
+            SessionName = "TestRoom1",
             Scene = scene,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
