@@ -1,4 +1,5 @@
 ﻿using Fusion;
+using TMPro;
 using UnityEngine;
 
 public class PlayerMove : NetworkBehaviour
@@ -10,6 +11,7 @@ public class PlayerMove : NetworkBehaviour
     public Animator anim;
     NetworkCharacterController cc;
 
+
     void Start()
     {
     }
@@ -17,6 +19,10 @@ public class PlayerMove : NetworkBehaviour
     void Update()
     {
     }
+
+    public TextMeshProUGUI textNickname;
+
+    [Networked] string myNickname { get; set; }
 
     public override void Spawned()
     {
@@ -28,8 +34,31 @@ public class PlayerMove : NetworkBehaviour
         {
             // 카메라를 끄고싶다.
             cameraRig.transform.GetChild(0).gameObject.SetActive(false);
+            textNickname.SetText(myNickname);
+        }
+        else
+        {
+            textNickname.SetText(ConnManager.instance.userNickname);
+            textNickname.color = Color.red;
+            RPC_ServerSetNickname(ConnManager.instance.userNickname);
         }
     }
+
+    // 1. 입력권한이 있는 클라이언트가 서버에게 이름좀 바꿔줘 요청
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_ServerSetNickname(string nickname)
+    {
+        myNickname = nickname;
+        RPC_ClientSetNickname(nickname);
+    }
+    // 2. 요청을 받은 서버가 다른 모든 클라이언트 들에게 이름 바꿔 라고 요청
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void RPC_ClientSetNickname(string nickname)
+    {
+        textNickname.SetText(nickname);
+    }
+
+
 
     public override void FixedUpdateNetwork()
     {
