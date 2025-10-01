@@ -11,30 +11,39 @@ public class ConnManager : Fusion.Behaviour, INetworkRunnerCallbacks
     public static ConnManager instance;
     void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Screen.SetResolution(800, 600, FullScreenMode.Windowed);
+
+        runner = GetComponent<NetworkRunner>();
+        runner.ProvideInput = true;
     }
 
     NetworkRunner runner;
 
     public string userNickname;
 
-    async void Start()
+    async void StartGame(GameMode mode, string sessionName)
     {
         userNickname = "Player" + UnityEngine.Random.Range(0, 1000000);
 
-        Screen.SetResolution(800, 600, FullScreenMode.Windowed);
-
-        runner = GetComponent<NetworkRunner>();
-        runner.ProvideInput = true;
-
-        SceneRef scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
+        SceneRef scene = SceneRef.FromIndex(1);
         NetworkSceneInfo sceneInfo = new NetworkSceneInfo();
         sceneInfo.AddSceneRef(scene, LoadSceneMode.Single);
         
         await runner.StartGame(new StartGameArgs()
         {
-            GameMode = GameMode.AutoHostOrClient,
-            SessionName = "TestRoom1",
+            GameMode = mode,
+            SessionName = sessionName,
             Scene = scene,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
