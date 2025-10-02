@@ -201,7 +201,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 70943542}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1955632070}
+        m_TargetAssemblyTypeName: ConnManager, Assembly-CSharp
+        m_MethodName: OnClickSearchSession
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &70943542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2561,7 +2573,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1340930646}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1955632070}
+        m_TargetAssemblyTypeName: ConnManager, Assembly-CSharp
+        m_MethodName: OnClickCreateSession
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1340930646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3215,7 +3239,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   userNickname: 
+  inputFieldNickname: {fileID: 1316708147}
   playerFactory: {fileID: 808589062636663694, guid: 95e94a334137b874fb8a1eb3adc1df38, type: 3}
+  inputFieldSessionName: {fileID: 640147969}
+  content: {fileID: 1285906326}
+  roomInfoFactory: {fileID: 5062603758175269609, guid: 0a57dd904724f754ca96f94af9a154dd, type: 3}
 --- !u!4 &1955632071
 Transform:
   m_ObjectHideFlags: 0

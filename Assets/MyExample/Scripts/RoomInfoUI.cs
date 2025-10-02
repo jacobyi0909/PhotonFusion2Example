@@ -15,7 +15,7 @@ public class RoomInfoUI : MonoBehaviour
 
     public void OnClickJoin()
     {
-
+        ConnManager.instance.JoinSession(sessionInfo.Name);
     }
 
     void Start()
